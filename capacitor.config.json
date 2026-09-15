@@ -1,0 +1,7 @@
+{
+  "appId": "com.agungardifinance.accountinghub",
+  "appName": "Accounting Hub 2026",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {"androidScheme": "https"}
+}
