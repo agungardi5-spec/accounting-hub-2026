@@ -7,64 +7,230 @@
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Accounting Hub 2026</title>
+<title>Accounting Hub 2026 Online V4.1</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--text:#101828;--muted:#667085;--line:#e5e7eb;--nav:#0b1220;--accent:#2563eb;--accent2:#0ea5e9;--soft:#eef4ff;--green:#15803d;--greenbg:#ecfdf3;--orange:#b45309;--orangebg:#fffbeb;--red:#b42318}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}
-.top{background:linear-gradient(135deg,#0b1220,#172554);color:#fff;padding:16px 16px 20px;position:sticky;top:0;z-index:20;box-shadow:0 4px 18px #0002}.topin{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;border-radius:13px;background:#fff2;display:grid;place-items:center;font-size:21px;border:1px solid #fff3}.brand h1{font-size:18px;margin:0}.brand p{margin:3px 0 0;font-size:11px;color:#cbd5e1}.version{font-size:10px;border:1px solid #ffffff33;padding:6px 9px;border-radius:999px;color:#dbeafe}
-.wrap{max-width:1200px;margin:auto;padding:15px 13px 88px}.hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:17px;box-shadow:0 6px 24px #1018280b}.heroTop{display:flex;align-items:start;justify-content:space-between;gap:12px}.hero h2{margin:0 0 5px;font-size:20px}.hero p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.status{font-size:10px;padding:7px 9px;border-radius:999px;background:var(--greenbg);color:var(--green);white-space:nowrap;font-weight:700}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:15px}.kpi{padding:13px;border-radius:15px;background:#f8fafc;border:1px solid var(--line)}.kpi small{display:block;color:var(--muted);font-size:10px;margin-bottom:7px}.kpi strong{font-size:16px;line-height:1.2;display:block}.kpi em{font-style:normal;font-size:10px;color:var(--muted);display:block;margin-top:4px}
-.section{margin-top:18px}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:10px}.section h3{margin:0;font-size:15px}.sectionhead span{font-size:10px;color:var(--muted)}.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.module{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:15px;text-align:left;box-shadow:0 4px 15px #1018280a;transition:.15s}.module:active{transform:scale(.98)}.module .ico{width:39px;height:39px;border-radius:11px;background:var(--soft);display:grid;place-items:center;font-size:18px;margin-bottom:10px}.module b{display:block;font-size:13px}.module span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.45}
-.quick{display:flex;gap:8px;overflow:auto;padding-bottom:3px}.quick button{white-space:nowrap;border:1px solid var(--line);background:var(--card);padding:9px 12px;border-radius:999px;color:#344054;font-size:11px}.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.action{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px;text-align:left}.action b{font-size:11px;display:block}.action span{font-size:9px;color:var(--muted);display:block;margin-top:3px}.note{padding:13px 14px;border-radius:14px;background:#eef6ff;border:1px solid #dbeafe;color:#31547a;font-size:11px;line-height:1.5}
-.detail{display:none}.back{border:0;background:transparent;color:var(--accent);padding:4px 0;font-weight:600;font-size:12px}.detailcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:9px;box-shadow:0 5px 20px #1018280a}.detailtitle{display:flex;justify-content:space-between;gap:10px;align-items:start}.detailtitle h2{margin:0;font-size:17px}.detailtitle small{color:var(--muted);font-size:10px}.toolbar{display:grid;grid-template-columns:1fr;gap:8px;margin:13px 0}.control{width:100%;border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 11px;outline:none;font-size:12px}.control:focus{border-color:#93c5fd;box-shadow:0 0 0 3px #dbeafe}.btnrow{display:flex;gap:8px}.btn{border:0;border-radius:11px;padding:10px 12px;font-weight:600;font-size:11px}.primary{background:var(--accent);color:#fff}.secondary{background:#f2f4f7;color:#344054}.tablewrap{overflow:auto;max-height:63vh;border:1px solid var(--line);border-radius:12px}table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:10px}th,td{padding:8px 9px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;max-width:340px}th{position:sticky;top:0;background:#f8fafc;font-weight:700;z-index:2}tr:last-child td{border-bottom:0}th:last-child,td:last-child{border-right:0}.empty{text-align:center;color:var(--muted);padding:30px}.count{font-size:10px;color:var(--muted);margin:8px 0}.toast{position:fixed;left:50%;bottom:75px;transform:translateX(-50%);background:#101828;color:#fff;padding:10px 14px;border-radius:999px;font-size:11px;z-index:50;display:none;box-shadow:0 5px 20px #0003}.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;z-index:30;padding:8px env(safe-area-inset-right) calc(8px + env(safe-area-inset-bottom))}.bottomin{max-width:1200px;width:100%;display:flex;justify-content:space-around}.navbtn{border:0;background:transparent;color:var(--muted);font-size:10px;padding:5px 15px}.navbtn.active{color:var(--accent);font-weight:700}
-@media(min-width:700px){.wrap{padding-top:22px}.kpis{grid-template-columns:repeat(4,1fr)}.modules{grid-template-columns:repeat(4,1fr)}.actions{grid-template-columns:repeat(4,1fr)}.toolbar{grid-template-columns:2fr 1fr auto}.btnrow{display:contents}.btn{height:40px}.bottom{display:none}.wrap{padding-bottom:30px}}
+:root{--bg:#f4f7fb;--card:#fff;--text:#101828;--muted:#667085;--line:#e5e7eb;--nav:#0b1220;--accent:#2563eb;--green:#15803d;--soft:#eef4ff;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer}.top{background:linear-gradient(135deg,#0b1220,#172554);color:white;padding:16px 20px;position:sticky;top:0;z-index:5}.topin{max-width:1250px;margin:auto;display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden}.logo img{width:100%;height:100%;object-fit:cover}.top h1{font-size:20px;margin:0}.top p{margin:3px 0 0;font-size:12px;color:#cbd5e1}.ver{margin-left:auto;border:1px solid #334155;border-radius:999px;padding:7px 10px;font-size:11px}.wrap{max-width:1250px;margin:auto;padding:16px 16px 88px}.hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 6px 24px #1018280b}.hero h2{margin:0 0 5px}.hero p{margin:0;color:var(--muted)}.status{margin-top:12px;display:inline-block;padding:7px 10px;border-radius:999px;background:#ecfdf3;color:var(--green);font-size:12px}.status.off{background:#fff7ed;color:#b45309}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.module{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;text-align:left;box-shadow:0 4px 14px #10182808}.module:hover{border-color:#93c5fd}.module b{display:block;margin-bottom:5px}.module span{font-size:12px;color:var(--muted)}.icon{font-size:22px;margin-bottom:9px}.quick{display:flex;gap:8px;overflow:auto;margin-top:14px}.quick button{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:999px}.section{margin-top:18px}.section h3{margin:0;font-size:15px}.detail{display:none}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}.back{border:0;background:none;color:var(--accent);font-weight:700;padding:0;margin:0 0 12px}.toolbar{display:grid;grid-template-columns:1fr auto auto auto;gap:8px}.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;min-width:0}.btn{border:0;border-radius:12px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:700}.btn.secondary{background:#eef2f7;color:#344054}.btn.green{background:#15803d}.btn.red{background:#b42318}.tablewrap{overflow:auto;margin-top:12px;border:1px solid var(--line);border-radius:14px;max-height:65vh}.table{border-collapse:collapse;width:max-content;min-width:100%}.table th,.table td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;font-size:12px}.table th{position:sticky;top:0;background:#f8fafc;text-align:left;z-index:2}.table td input{border:1px solid transparent;border-radius:7px;padding:7px;min-width:110px;background:transparent}.table td input:focus{border-color:#93c5fd;background:#fff}.rowbtn{white-space:nowrap}.rowbtn button{font-size:11px;padding:7px 9px}.empty{padding:30px;text-align:center;color:var(--muted)}.modal{display:none;position:fixed;inset:0;background:#0b122099;z-index:20;align-items:center;justify-content:center;padding:18px}.modalbox{background:#fff;border-radius:20px;max-width:520px;width:100%;padding:20px}.modalbox h3{margin-top:0}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px}.notice{font-size:12px;color:var(--muted);line-height:1.5}.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;gap:28px;padding:9px;z-index:6}.bottom button{border:0;background:none;color:#667085}.bottom .active{color:#2563eb;font-weight:800}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}.toolbar .wide{grid-column:1/-1}}@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.top h1{font-size:17px}.wrap{padding:12px 12px 88px}}
 </style>
 </head>
 <body>
-<header class="top"><div class="topin"><div class="brand"><div class="logo">📊</div><div><h1>Accounting Hub 2026</h1><p>Finance Dashboard • AP • DOP • Taxes • Pinbuk</p></div></div><div class="version">V3.0</div></div></header>
+<header class="top"><div class="topin"><div class="logo"><img src="icon-192.png"></div><div><h1>Accounting Hub 2026</h1><p>Online • Edit HP • PC • Laptop • AP • DOP • Taxes • Pinbuk</p></div><div class="ver">V4.1</div></div></header>
+
 <main class="wrap">
 <section id="home">
-<div class="hero"><div class="heroTop"><div><h2>Dashboard Finance</h2><p>Ringkasan cepat laporan accounting dan pusat pengelolaan data aplikasi.</p></div><div class="status" id="status">● Offline Ready</div></div><div class="kpis"><div class="kpi"><small>Revenue Agustus</small><strong id="rev">-</strong><em>Summary Owning</em></div><div class="kpi"><small>Excess Agustus</small><strong id="exc">-</strong><em>Summary Owning</em></div><div class="kpi"><small>AP Over 90</small><strong id="ap90">-</strong><em>AP Aging</em></div><div class="kpi"><small>Data Lokal</small><strong id="localCount">0</strong><em>File custom / import</em></div></div></div>
-<div class="section"><div class="sectionhead"><h3>Modul Accounting</h3><span>Pilih laporan</span></div><div class="modules">
-<button class="module" onclick="openBook(0)"><div class="ico">💳</div><b>AP Report</b><span>AP Aging & AP Analysis</span></button>
-<button class="module" onclick="openBook(1)"><div class="ico">📊</div><b>DOP Report</b><span>Dashboard, P&L, Balance Sheet & laporan hotel</span></button>
-<button class="module" onclick="openBook(2)"><div class="ico">🧾</div><b>All Taxes</b><span>Rekap pajak Januari–Desember 2026</span></button>
-<button class="module" onclick="openBook(3)"><div class="ico">🔄</div><b>Pinbuk & Excess</b><span>Summary, Excess, Pinbuk & Transfer Owning</span></button>
-</div></div>
-<div class="section"><div class="sectionhead"><h3>Akses Cepat</h3><span>Sheet utama</span></div><div class="quick"><button onclick="openSpecific(0,'1.7. AP Aging')">AP Aging</button><button onclick="openSpecific(0,'1.7. AP Analysis')">AP Analysis</button><button onclick="openSpecific(1,'Dashboard')">DOP Dashboard</button><button onclick="openSpecific(1,'PnL')">PnL</button><button onclick="openSpecific(1,'BALANCE SHEET')">Balance Sheet</button><button onclick="openSpecific(2,'OHB')">Taxes OHB</button><button onclick="openSpecific(3,'Summary Owning')">Summary Owning</button><button onclick="openSpecific(3,'Pinbuk Tahun 2026')">Pinbuk 2026</button></div></div>
-<div class="section"><div class="sectionhead"><h3>Pusat Data</h3><span>Kelola dari HP</span></div><div class="actions"><button class="action" onclick="backupData()"><b>💾 Backup Data</b><span>Simpan pengaturan & data lokal</span></button><button class="action" onclick="$('restoreFile').click()"><b>♻️ Restore Backup</b><span>Ambil kembali file backup</span></button><button class="action" onclick="$('csvFile').click()"><b>📥 Import CSV</b><span>Tambahkan laporan CSV sebagai sheet lokal</span></button><button class="action" onclick="clearLocal()"><b>🧹 Reset Data Lokal</b><span>Hapus hanya data import, bukan data bawaan</span></button></div></div>
-<div class="section"><div class="note">💡 <b>V3:</b> aplikasi tetap offline. Data laporan bawaan tidak berubah. Data CSV dan pengaturan lokal dapat disimpan di perangkat, dibackup, dan dipulihkan tanpa internet.</div></div>
+  <div class="hero">
+    <h2>Accounting Hub Online</h2>
+    <p>Edit data dari HP, PC, atau laptop dan sinkronkan ke database online.</p>
+    <div id="status" class="status off">Online belum terhubung</div>
+  </div>
+
+  <div class="section"><h3>Modul Accounting</h3>
+    <div class="grid">
+      <button class="module" onclick="openBook(0)"><div class="icon">📊</div><b>AP Report</b><span>AP Aging & AP Analysis</span></button>
+      <button class="module" onclick="openBook(1)"><div class="icon">📥</div><b>DOP Report</b><span>Deposit On Purchase saja</span></button>
+      <button class="module" onclick="openBook(2)"><div class="icon">🧾</div><b>Tax Report</b><span>Rekap pajak Jan–Des 2026</span></button>
+      <button class="module" onclick="openBook(3)"><div class="icon">💸</div><b>Pinbuk & Excess</b><span>Summary, Excess, Pinbuk & Transfer Owning</span></button>
+    </div>
+  </div>
+
+  <div class="section"><h3>Aksi Online</h3>
+    <div class="quick">
+      <button onclick="showLogin()">🔐 Login / Daftar</button>
+      <button onclick="showSettings()">⚙️ Koneksi Database</button>
+      <button onclick="publishBundled()">☁️ Upload Data Awal</button>
+      <button onclick="document.getElementById('excelFile').click()">📤 Upload Excel</button>
+      <button onclick="downloadBackup()">💾 Backup JSON</button>
+      <button onclick="document.getElementById('jsonFile').click()">♻️ Restore JSON</button>
+      <input id="excelFile" type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importExcel(this)">
+      <input id="jsonFile" type="file" accept=".json" style="display:none" onchange="restoreJSON(this)">
+    </div>
+  </div>
 </section>
-<section id="detail" class="detail"><button class="back" onclick="backHome()">← Kembali ke Dashboard</button><div class="detailcard"><div class="detailtitle"><div><h2 id="title"></h2><small id="subtitle"></small></div></div><div class="toolbar"><select id="sheet" class="control"></select><input id="search" class="control" placeholder="🔎 Cari di seluruh kolom..." oninput="renderTable()"><div class="btnrow"><button class="btn primary" onclick="exportCSV()">Export CSV</button><button class="btn secondary" onclick="clearSearch()">Reset</button></div></div><div class="count" id="count"></div><div class="tablewrap"><table id="tbl"></table></div></div></section>
-<input id="restoreFile" type="file" accept="application/json,.json" hidden onchange="restoreData(this)"><input id="csvFile" type="file" accept=".csv,text/csv" hidden onchange="importCSV(this)">
+
+<section id="detail" class="detail">
+  <button class="back" onclick="backHome()">← Kembali ke Dashboard</button>
+  <div class="hero"><h2 id="title"></h2><p id="subtitle">Pilih sheet untuk melihat data</p></div>
+  <div class="card">
+    <div class="toolbar">
+      <select id="sheet"></select>
+      <input id="search" class="wide" placeholder="🔎 Cari di seluruh kolom..." oninput="renderTable()">
+      <button class="btn secondary" onclick="refreshCurrent()">↻ Refresh</button>
+      <button class="btn green" onclick="exportCSV()">Export CSV</button>
+    </div>
+    <div id="saveInfo" class="notice" style="margin-top:9px"></div>
+    <div id="tablebox" class="tablewrap"></div>
+  </div>
+</section>
 </main>
-<nav class="bottom"><div class="bottomin"><button class="navbtn active" onclick="backHome()">⌂<br>Dashboard</button><button class="navbtn" onclick="openBook(0)">▣<br>AP</button><button class="navbtn" onclick="openBook(1)">▤<br>DOP</button><button class="navbtn" onclick="openBook(2)">▥<br>Tax</button><button class="navbtn" onclick="openBook(3)">↔<br>Pinbuk</button></div></nav>
-<div id="toast" class="toast"></div>
+
+<div class="bottom">
+<button class="active" onclick="backHome()">⌂ Dashboard</button>
+<button onclick="openBook(0)">▣ AP</button><button onclick="openBook(1)">▤ DOP</button><button onclick="openBook(2)">▥ Tax</button><button onclick="openBook(3)">↔ Pinbuk</button>
+</div>
+
+<div id="loginModal" class="modal"><div class="modalbox">
+<h3>🔐 Login Accounting Hub</h3>
+<p class="notice">Gunakan email dan password Supabase. Akun ini dapat dipakai di HP, PC, dan laptop.</p>
+<div class="field"><label>Email</label><input id="email" type="email" placeholder="nama@email.com"></div>
+<div class="field"><label>Password</label><input id="password" type="password" placeholder="minimal 6 karakter"></div>
+<div style="display:flex;gap:8px"><button class="btn" onclick="signIn()">Login</button><button class="btn secondary" onclick="signUp()">Daftar</button><button class="btn secondary" onclick="closeModals()">Tutup</button></div>
+</div></div>
+
+<div id="settingsModal" class="modal"><div class="modalbox">
+<h3>⚙️ Koneksi Database Online</h3>
+<p class="notice">Masukkan URL Project Supabase dan anon/publishable key. Disimpan hanya di perangkat ini. RLS database tetap wajib diaktifkan.</p>
+<div class="field"><label>Supabase Project URL</label><input id="sbUrl" placeholder="https://xxxxx.supabase.co"></div>
+<div class="field"><label>Supabase anon/publishable key</label><input id="sbKey" placeholder="eyJ..."></div>
+<div style="display:flex;gap:8px"><button class="btn" onclick="saveSettings()">Simpan & Tes</button><button class="btn secondary" onclick="closeModals()">Tutup</button></div>
+</div></div>
+
 <script>
-let data=null,bookIdx=0,activeRows=[],localSheets={};
-const files=['_08. AP Report Agustus 2026(1).xlsx','08. DOP Report Agustus  2026(1).xlsx','02. Summary All Taxes Jan - Des 2026.xlsx','06 REKAP PINBUK  EXCESS JAN - DES 2026.xlsx'];
+const FILES=[
+"_08. AP Report Agustus 2026(1).xlsx",
+"08. DOP Report Agustus  2026(1).xlsx",
+"02. Summary All Taxes Jan - Des 2026.xlsx",
+"06 REKAP PINBUK  EXCESS JAN - DES 2026.xlsx"
+];
+let bundled=null, remoteCache={}, bookIdx=0, activeSheet="", activeRows=[], sb=null, user=null;
+
 const $=id=>document.getElementById(id);
-const DB='accountingHubV3';
-function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';clearTimeout(window._toast);window._toast=setTimeout(()=>{$('toast').style.display='none'},2200)}
-function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('settings'))r.result.createObjectStore('settings');};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
-async function loadLocal(){try{let db=await openDB();let tx=db.transaction('settings','readonly'),req=tx.objectStore('settings').get('localSheets');req.onsuccess=()=>{localSheets=req.result||{};updateLocalCount()};}catch(e){}}
-async function saveLocal(){try{let db=await openDB();let tx=db.transaction('settings','readwrite');tx.objectStore('settings').put(localSheets,'localSheets');}catch(e){}}
-function updateLocalCount(){$('localCount').textContent=Object.keys(localSheets).length}
-fetch('data/accounting.json').then(r=>r.json()).then(d=>{data=d;loadLocal();init()}).catch(()=>{$('rev').textContent='Data error';$('status').textContent='● Data Error';$('status').style.background='#fef2f2';$('status').style.color='#b42318'});
-function init(){let b=data[files[3]]||{};let rows=b['Summary Owning']||[];let r=rows.find(x=>String(x?.[1]??'').toUpperCase().includes('AGUSTUS'));if(r){$('rev').textContent=money(r[2]);$('exc').textContent=money(r[5]);}let ap=data[files[0]]?.['1.7. AP Aging']||[];let total=0;ap.slice(7).forEach(x=>{if(typeof x?.[7]==='number')total+=x[7]});$('ap90').textContent=money(total)}
-function getBook(i){return data?.[files[i]]||{}}
-function getSheets(i){return Object.assign({},getBook(i),localSheets)}
-function openBook(i){bookIdx=i;$('home').style.display='none';$('detail').style.display='block';$('title').textContent=files[i].replace('.xlsx','');$('subtitle').textContent='Pilih sheet untuk melihat data';let s=$('sheet');s.innerHTML='';let sheetNames=Object.keys(getBook(i));if(i===1)sheetNames=['DEPOSIT ON PURCHASE'];sheetNames.forEach(x=>{let o=document.createElement('option');o.value=x;o.textContent=x;s.appendChild(o)});s.onchange=renderTable;renderTable();window.scrollTo({top:0,behavior:'smooth'})}
-function openSpecific(i,sheet){openBook(i);if([...$('sheet').options].some(o=>o.value===sheet)){$('sheet').value=sheet;renderTable()}}
-function backHome(){$('detail').style.display='none';$('home').style.display='block';window.scrollTo({top:0,behavior:'smooth'})}
-function clearSearch(){$('search').value='';renderTable()}
-function renderTable(){let s=$('sheet').value,rows=getSheets(bookIdx)[s]||[],q=($('search').value||'').trim().toLowerCase();activeRows=rows.filter(r=>Array.isArray(r)&&(!q||r.some(v=>String(v??'').toLowerCase().includes(q)))).slice(0,3000);let t=$('tbl');t.innerHTML='';$('count').textContent=activeRows.length+' baris ditampilkan (maks. 3.000)';if(!activeRows.length){t.innerHTML='<tr><td class="empty">Tidak ada data yang cocok.</td></tr>';return}let max=Math.min(Math.max(...activeRows.map(r=>r.length),1),40);let tr=document.createElement('tr');for(let i=0;i<max;i++){let th=document.createElement('th');th.textContent='Kolom '+(i+1);tr.appendChild(th)}t.appendChild(tr);activeRows.forEach(r=>{let tr=document.createElement('tr');for(let i=0;i<max;i++){let td=document.createElement('td');td.textContent=format(r[i]);tr.appendChild(td)}t.appendChild(tr)})}
-function format(v){if(v==null)return '';if(typeof v==='number')return Math.abs(v)>=100000?money(v):new Intl.NumberFormat('id-ID',{maximumFractionDigits:2}).format(v);return String(v)}function money(v){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(v||0)}
-function exportCSV(){if(!activeRows.length)return;let csv='\ufeff'+activeRows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='accounting-hub-export.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('CSV berhasil diekspor')}
-function backupData(){let payload={app:'Accounting Hub 2026',version:'3.0',createdAt:new Date().toISOString(),localSheets};let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='accounting-hub-v3-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Backup berhasil dibuat')}
-function restoreData(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=async()=>{try{let p=JSON.parse(r.result);if(!p||typeof p.localSheets!=='object')throw Error('Format backup tidak valid');localSheets=p.localSheets;await saveLocal();updateLocalCount();toast('Backup berhasil dipulihkan');}catch(e){toast('Backup tidak valid')}};r.readAsText(f);input.value=''}
-function importCSV(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=async()=>{let rows=parseCSV(r.result);if(!rows.length){toast('CSV kosong');return}let name=f.name.replace(/\.csv$/i,'')||'Import CSV';localSheets[name]=rows;await saveLocal();updateLocalCount();toast('CSV berhasil diimpor');input.value='';};r.readAsText(f,'UTF-8')}
-function parseCSV(text){let rows=[],row=[],cell='',quote=false;for(let i=0;i<text.length;i++){let c=text[i],n=text[i+1];if(c==='"'&&quote&&n==='"'){cell+='"';i++;continue}if(c==='"'){quote=!quote;continue}if(c===','&&!quote){row.push(cell);cell='';continue}if((c==='\n'||c==='\r')&&!quote){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(x=>x!==''))rows.push(row);row=[];cell='';continue}cell+=c}if(cell!==''||row.length){row.push(cell);if(row.some(x=>x!==''))rows.push(row)}return rows}
-async function clearLocal(){if(!Object.keys(localSheets).length){toast('Tidak ada data lokal');return}if(!confirm('Hapus semua data CSV/import lokal? Data bawaan aplikasi tidak akan terhapus.'))return;localSheets={};await saveLocal();updateLocalCount();toast('Data lokal dihapus')}
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
+async function loadBundled(){try{bundled=await fetch("data/accounting.json").then(r=>r.json());}catch(e){bundled={}}}
+function getBook(i){return bundled?.[FILES[i]]||{}}
+function setStatus(t,off=true){$("status").textContent=t;$("status").className="status"+(off?" off":"")}
+async function initSupabase(){
+  const url=localStorage.getItem("ah_sb_url")||"https://htbvztienatubzvozdpz.supabase.co";
+  const key=localStorage.getItem("ah_sb_key")||"sb_publishable_lhb8WdD1vOBtGjWrqcHMOw_RdGe2uN6";
+  localStorage.setItem("ah_sb_url",url);
+  localStorage.setItem("ah_sb_key",key);
+  try{
+    sb=window.supabase.createClient(url,key);
+    const r=await sb.auth.getSession();
+    user=r.data.session?.user||null;
+    setStatus(user?"Online • "+user.email:"Database online • silakan Login",false);
+    sb.auth.onAuthStateChange((_e,s)=>{
+      user=s?.user||null;
+      setStatus(user?"Online • "+user.email:"Database online • silakan Login",false)
+    })
+  }catch(e){sb=null;setStatus("Koneksi database gagal",true)}
+}
+function requireOnline(){if(!sb){alert("Atur koneksi database dulu melalui ⚙️ Koneksi Database.");return false}if(!user){alert("Silakan Login / Daftar dulu.");return false}return true}
+function showLogin(){$("loginModal").style.display="flex"} function showSettings(){ $("sbUrl").value=localStorage.getItem("ah_sb_url")||"";$("sbKey").value=localStorage.getItem("ah_sb_key")||"";$("settingsModal").style.display="flex"} function closeModals(){document.querySelectorAll(".modal").forEach(x=>x.style.display="none")}
+async function saveSettings(){const u=$("sbUrl").value.trim(),k=$("sbKey").value.trim();if(!u||!k){alert("URL dan key wajib diisi.");return}localStorage.setItem("ah_sb_url",u);localStorage.setItem("ah_sb_key",k);closeModals();await initSupabase();alert("Koneksi tersimpan. Silakan Login / Daftar.");}
+async function signIn(){if(!sb){alert("Atur koneksi database dulu.");return}const {error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)alert(error.message);else{closeModals();alert("Login berhasil.");}}
+async function signUp(){if(!sb){alert("Atur koneksi database dulu.");return}const {error}=await sb.auth.signUp({email:$("email").value.trim(),password:$("password").value});if(error)alert(error.message);else alert("Pendaftaran berhasil. Jika email confirmation aktif, cek email untuk konfirmasi.");}
+function normalizeRows(rows){return rows.map(r=>Array.isArray(r)?r.map(v=>v==null?"":String(v)):[String(r||"")])}
+function getLocalBook(i){return remoteCache[FILES[i]]||getBook(i)}
+async function fetchRemoteBook(i){
+  if(!sb||!user)return null;
+  const {data,error}=await sb.from("ah_sheets").select("id,workbook_name,sheet_name,rows").eq("workbook_name",FILES[i]).order("sheet_name");
+  if(error){console.warn(error);return null}
+  const b={};(data||[]).forEach(x=>b[x.sheet_name]=x.rows||[]);remoteCache[FILES[i]]=b;return b;
+}
+async function openBook(i){
+  bookIdx=i;$("home").style.display="none";$("detail").style.display="block";$("title").textContent=FILES[i].replace(".xlsx","");$("subtitle").textContent="Data lokal + sinkronisasi online";
+  let b=getLocalBook(i);if(sb&&user){const rb=await fetchRemoteBook(i);if(rb&&Object.keys(rb).length)b=rb}
+  let names=Object.keys(b);if(i===1)names=["DEPOSIT ON PURCHASE"];if(!names.length){$("sheet").innerHTML="<option>Belum ada data</option>";activeSheet="";activeRows=[];renderTable();return}
+  $("sheet").innerHTML=names.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join("");$("sheet").onchange=renderTable;activeSheet=names[0];renderTable();
+}
+function backHome(){$("detail").style.display="none";$("home").style.display="block"}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function currentRows(){const b=getLocalBook(bookIdx);return b?.[activeSheet]||[]}
+function renderTable(){
+  activeSheet=$("sheet").value||activeSheet;let rows=currentRows();if(!rows.length){$("tablebox").innerHTML='<div class="empty">Belum ada data pada sheet ini.</div>';return}
+  const q=($("search").value||"").toLowerCase();let filtered=rows.map((r,i)=>({r,i})).filter(x=>x.r.some(v=>String(v??"").toLowerCase().includes(q))).slice(0,300);
+  if(!filtered.length){$("tablebox").innerHTML='<div class="empty">Data tidak ditemukan.</div>';return}
+  const cols=Math.max(...filtered.map(x=>x.r.length),2);let h="<table class='table'><thead><tr>";for(let c=0;c<cols;c++)h+=`<th>Kolom ${c+1}</th>`;h+="<th>Aksi</th></tr></thead><tbody>";
+  for(const item of filtered){h+="<tr>";for(let c=0;c<cols;c++)h+=`<td><input data-row="${item.i}" data-col="${c}" value="${escapeHtml(item.r[c]??"")}"></td>`;h+=`<td class="rowbtn"><button class="btn green" onclick="saveRow(${item.i})">Simpan</button></td></tr>`}
+  h+="</tbody></table>";$("tablebox").innerHTML=h;$("saveInfo").textContent=`Menampilkan ${filtered.length} baris. Edit langsung di sel lalu klik Simpan.`;
+}
+async function saveRow(idx){
+  if(!requireOnline())return;
+  const inputs=[...document.querySelectorAll(`input[data-row="${idx}"]`)];
+  const rowData=inputs.map(x=>x.value);
+
+  const {data:sheet,error:se}=await sb.from("ah_sheets")
+    .select("id,rows")
+    .eq("workbook_name",FILES[bookIdx])
+    .eq("sheet_name",activeSheet)
+    .maybeSingle();
+  if(se){alert(se.message);return}
+  if(!sheet){alert("Sheet online belum tersedia. Jalankan Upload Data Awal terlebih dahulu.");return}
+
+  const rows=Array.isArray(sheet.rows)?sheet.rows:currentRows().map(r=>Array.isArray(r)?r:[]);
+  while(rows.length<=idx) rows.push([]);
+  rows[idx]=rowData;
+
+  const {error:ue}=await sb.from("ah_sheets")
+    .update({rows:rows,updated_at:new Date().toISOString()})
+    .eq("id",sheet.id);
+  if(ue){alert(ue.message);return}
+
+  const {data:old,error:oe}=await sb.from("ah_rows")
+    .select("id")
+    .eq("sheet_id",sheet.id)
+    .eq("row_no",idx)
+    .maybeSingle();
+  if(oe){alert(oe.message);return}
+
+  let er;
+  if(old) er=await sb.from("ah_rows").update({row_data:rowData,updated_at:new Date().toISOString()}).eq("id",old.id);
+  else er=await sb.from("ah_rows").insert({sheet_id:sheet.id,row_no:idx,row_data:rowData});
+  if(er.error){alert(er.error.message);return}
+
+  remoteCache[FILES[bookIdx]]=remoteCache[FILES[bookIdx]]||{};
+  remoteCache[FILES[bookIdx]][activeSheet]=rows;
+  alert("✅ Baris berhasil disimpan online. Perubahan akan terlihat di perangkat lain setelah Refresh.");
+}
+async function publishBundled(){
+  if(!requireOnline())return;
+  if(!confirm("Upload data awal dari Excel JSON ke database online? Data sheet yang sama akan ditimpa."))return;
+  for(const i of [0,1,2,3]){
+    let b=getBook(i);if(i===1)b={"DEPOSIT ON PURCHASE":b["DEPOSIT ON PURCHASE"]||[]};
+    for(const [sheetName,rows] of Object.entries(b)){
+      const clean=normalizeRows(rows);
+      const {data:s,error:se}=await sb.from("ah_sheets").upsert({workbook_name:FILES[i],sheet_name:sheetName,rows:clean},{onConflict:"workbook_name,sheet_name"}).select("id").single();
+      if(se){alert("Gagal "+sheetName+": "+se.message);return}
+      await sb.from("ah_rows").delete().eq("sheet_id",s.id);
+      const payload=clean.map((row,n)=>({sheet_id:s.id,row_no:n,row_data:row}));
+      for(let p=0;p<payload.length;p+=500){const r=await sb.from("ah_rows").insert(payload.slice(p,p+500));if(r.error){alert("Gagal upload baris: "+r.error.message);return}}
+    }
+  }
+  alert("Data awal berhasil di-upload ke database online.");
+}
+async function importExcel(input){
+  if(!requireOnline())return;const f=input.files[0];if(!f)return;
+  const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{type:"array"});let target=prompt("Nama modul: AP / DOP / TAX / PINBUK","AP");target=(target||"").toUpperCase();let i={AP:0,DOP:1,TAX:2,PINBUK:3}[target];if(i===undefined){alert("Modul tidak dikenali.");return}
+  for(const name of wb.SheetNames){
+    if(i===1&&name!=="DEPOSIT ON PURCHASE")continue;
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:false});
+    const {data:s,error:se}=await sb.from("ah_sheets").upsert({workbook_name:FILES[i],sheet_name:name,rows:normalizeRows(rows)},{onConflict:"workbook_name,sheet_name"}).select("id").single();
+    if(se){alert(se.message);return}
+    await sb.from("ah_rows").delete().eq("sheet_id",s.id);
+    const clean=normalizeRows(rows);for(let p=0;p<clean.length;p+=500){const r=await sb.from("ah_rows").insert(clean.slice(p,p+500).map((row,n)=>({sheet_id:s.id,row_no:p+n,row_data:row})));if(r.error){alert(r.error.message);return}}
+  }
+  alert("Excel berhasil di-upload online. Buka ulang modul untuk melihatnya.");input.value="";
+}
+async function refreshCurrent(){
+  if(sb&&user){
+    const rb=await fetchRemoteBook(bookIdx);
+    if(rb&&Object.keys(rb).length) remoteCache[FILES[bookIdx]]=rb;
+  }
+  const b=getLocalBook(bookIdx);
+  const names=Object.keys(b);
+  if(bookIdx===1 && names.length===0){alert("Data DOP belum tersedia online.");return}
+  if(names.length){
+    $("sheet").innerHTML=names.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join("");
+    if(names.includes(activeSheet)) $("sheet").value=activeSheet; else activeSheet=names[0];
+  }
+  renderTable();
+}
+function exportCSV(){const rows=currentRows();if(!rows.length)return;const csv=rows.map(r=>r.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.download=(activeSheet||"data")+".csv";a.click()}
+function downloadBackup(){const payload={version:"4.0",date:new Date().toISOString(),data:bundled};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(payload)],{type:"application/json"}));a.download="accounting-hub-backup.json";a.click()}
+async function restoreJSON(input){const f=input.files[0];if(!f)return;try{const j=JSON.parse(await f.text());bundled=j.data||j;alert("Backup dimuat di perangkat ini. Untuk menjadikannya online, gunakan Upload Data Awal.");}catch(e){alert("File JSON tidak valid.")}input.value=""}
+window.addEventListener("load",async()=>{await loadBundled();await initSupabase();if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")});
 </script>
-</body></html>
+</body>
+</html>
